@@ -156,14 +156,14 @@ def _configure_plugin_service(server):
   )
   # Get all VulnDetector class implementations.
   plugins = [
-      cls(http_client, payload_generator)
+      cls(http_client, payload_generator)  # pyrefly: ignore[bad-argument-count,bad-instantiation]
       for cls in tsunami_plugin.VulnDetector.__subclasses__()
   ]
   logging.info('Configured %d python plugin:', len(plugins))
   for plugin in plugins:
     logging.info('\t%s', plugin.GetPluginDefinition().info.name)
   servicer = plugin_service.PluginServiceServicer(
-      py_plugins=plugins, max_workers=_THREADS.value
+      py_plugins=plugins, max_workers=_THREADS.value  # pyrefly: ignore[bad-argument-type]
   )
   plugin_service_pb2_grpc.add_PluginServiceServicer_to_server(servicer, server)
 
